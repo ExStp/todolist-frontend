@@ -1,15 +1,11 @@
-FROM node
+FROM node:22 AS build
 WORKDIR /app
-
-# Копируем package.json и package-lock.json, устанавливаем зависимости
 COPY package*.json ./
 RUN npm install
-
-# Копируем весь проект
 COPY . .
+RUN npm run build
 
-# Открываем порт
-EXPOSE 5173
-
-# Запускаем dev-сервер при старте контейнера
-CMD ["npm", "run", "dev"]
+FROM nginx:alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
