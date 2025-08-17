@@ -1,0 +1,19 @@
+name: Deploy Frontend & Backend
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      # Получаем актуальный код
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Собираем и запускаем контейнеры
+      - name: Build and deploy
+        run: |
+          cd /home/andrey/projects/todo
+          sudo docker compose up -d --build
