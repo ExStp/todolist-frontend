@@ -9,7 +9,7 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      # 1. Получаем актуальный код в рабочую директорию runner
+      # 1. Получаем актуальный код
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
@@ -18,5 +18,7 @@ jobs:
 
       # 2. Заходим в рабочую директорию и запускаем docker compose
       - name: Build and deploy
-        working-directory: $GITHUB_WORKSPACE
-        run: sudo docker compose up -d --build || exit 1
+        run: |
+          echo "Current directory: $(pwd)"
+          sudo docker compose up -d --build || exit 1
+        working-directory: ${{ github.workspace }}
