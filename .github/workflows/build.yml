@@ -9,14 +9,20 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      # 1. Получаем актуальный код
+      # 1. Checkout репозитория
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           persist-credentials: true
           clean: true
 
-      # 2. Заходим в рабочую директорию и запускаем docker compose
+      # 2. Копируем код в директорию с docker-compose.yml
+      - name: Sync code to deploy folder
+        run: |
+          rsync -av --delete ${{ github.workspace }}/ /home/andrey/projects/todo/frontend/
+
+      # 3. Собираем и запускаем контейнер
       - name: Build and deploy
-        run: sudo docker compose up -d --build || exit 1
-        working-directory: ${{ github.workspace }}
+        run: |
+          cd /home/andrey/projects/todo
+          sudo docker compose up -d --build
