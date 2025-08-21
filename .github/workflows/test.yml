@@ -1,5 +1,8 @@
 name: Test React App
-on: push
+
+on:
+  push:
+    
 jobs:
   test:
     runs-on: ubuntu-latest

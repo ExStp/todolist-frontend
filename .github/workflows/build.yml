@@ -2,18 +2,27 @@ name: Deploy Frontend
 
 on:
   push:
-    branches: [master]
+    branches: [production]
 
 jobs:
   deploy:
     runs-on: self-hosted
+
     steps:
-      # Получаем актуальный код
+      # 1. Checkout репозитория
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+          clean: true
 
-      # Собираем и запускаем контейнеры
+      # 2. Копируем код в директорию с docker-compose.yml
+      - name: Sync code to deploy folder
+        run: |
+          rsync -av --delete ${{ github.workspace }}/ /home/andrey/projects/todo/frontend/
+
+      # 3. Собираем и запускаем контейнер
       - name: Build and deploy
         run: |
-            cd /home/andrey/projects/todo
-            sudo docker compose up -d --build || exit 1
+          cd /home/andrey/projects/todo
+          sudo docker compose up -d --build

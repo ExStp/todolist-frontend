@@ -95,7 +95,7 @@ export const CreateTaskForm = () => {
                     fullWidth
                 />
                 <Button sx={{ minWidth: "100px" }} type="submit" variant="contained" fullWidth={isSmallScreen}>
-                    Создать
+                    Создать!
                 </Button>
             </Stack>
 
