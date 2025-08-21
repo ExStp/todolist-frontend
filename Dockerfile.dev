@@ -1,0 +1,11 @@
+FROM node:22
+
+WORKDIR /app
+
+# Скопируем package.json для установки зависимостей
+COPY package*.json ./
+RUN npm install
+
+# Оставляем код на хосте, поэтому сам проект не копируем
+CMD ["npm", "run", "dev"]
+EXPOSE 5173
