@@ -1,18 +1,21 @@
 name: Deploy Frontend
 
 on:
-  pull_request:
+  push:
     branches: [production]
-    types: [closed]
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'production' && github.event.pull_request.head.ref == 'development'
     runs-on: self-hosted
+
     steps:
+      # Получаем актуальный код прямо в боевую директорию
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          path: /home/andrey/projects/todo
 
+      # Собираем и запускаем контейнеры
       - name: Build and deploy
         run: |
           cd /home/andrey/projects/todo
