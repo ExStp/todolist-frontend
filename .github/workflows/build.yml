@@ -18,7 +18,5 @@ jobs:
 
       # 2. Заходим в рабочую директорию и запускаем docker compose
       - name: Build and deploy
-        run: |
-          echo "Current directory: $(pwd)"
-          sudo docker compose up -d --build || exit 1
+        run: sudo docker compose up -d --build || exit 1
         working-directory: ${{ github.workspace }}
